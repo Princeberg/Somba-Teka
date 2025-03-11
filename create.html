@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un Produit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.jpg">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Créer un Nouveau Produit</h1>
+        <form id="productForm">
+            <div class="form-group">
+                <label>Category</label>
+                <input type="text" id="categorie" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" id="productName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="number" id="price" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="description" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Seller Contact</label>
+                <input type="text" id="sellerContact" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Seller Name</label>
+                <input type="text" id="sellerName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Product Picture URL</label>
+                <input type="url" id="productPicture" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Créer</button>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
+            authDomain: "teka-somba-3ddca.firebaseapp.com",
+            databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "teka-somba-3ddca",
+            storageBucket: "teka-somba-3ddca.firebasestorage.app",
+            messagingSenderId: "690571843370",
+            appId: "1:690571843370:web:f802c4e0f823e54ca83053",
+            measurementId: "G-T3J6X0SLBT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Form submission
+        document.getElementById("productForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const product = {
+                categorie: document.getElementById("categorie").value,
+                productName: document.getElementById("productName").value,
+                price: document.getElementById("price").value,
+                description: document.getElementById("description").value,
+                sellerContact: document.getElementById("sellerContact").value,
+                sellerName: document.getElementById("sellerName").value,
+                productPicture: document.getElementById("productPicture").value
+            };
+
+            // Save product to Firebase
+            push(ref(database, "products"), product)
+                .then(() => {
+                    alert("Produit créé avec succès!");
+                    document.getElementById("productForm").reset();
+                })
+                .catch((error) => {
+                    alert("Erreur: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>

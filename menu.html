@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.jpg">
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+
+    <link rel="stylesheet" href="css/lightgallery.min.css">    
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+
+    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
+
+    <link rel="stylesheet" href="css/swiper.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background-image: url("https://images.unsplash.com/photo-1485470733090-0aae1788d5af?q=80&w=2117&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 100px;
+            text-align: center;
+        }
+        .btn {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu">
+          <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+              <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+          </div>
+          <div class="site-mobile-menu-body"></div>
+        </div>
+        
+        <header class="site-navbar py-3" role="banner">
+          <div class="container-fluid">
+            <div class="row align-items-center">
+              <div class="col-6 col-xl-3">  
+                <h1 class="mb-0">  
+                    <a href="login.html" class="text-white h2 mb-0">  
+                        <span >  <strong>SOMBA</strong></span>  
+                        <span ><strong>TEKA</strong></span>  
+                    </a>  
+                </h1>  
+              </div>
+              <div class="col-6 col-xl-3 text-right">
+                <div class="d-none d-xl-inline-block">
+                  <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
+                    <li>
+                      <a href="#" class="pl-0 pr-3"><span class="icon-instagram"></span></a>
+                    </li>
+                    <li>
+                      <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">
+                  <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Logout Button -->
+        <button onclick="logout()" class="btn btn-danger logout-btn">Déconnexion</button>
+
+        <div class="container">
+            <h1 style="color:white"> BIENVENUE PRINCE </h1>
+            <button onclick="window.location.href='views.html'" class="btn btn-primary">Voir les Produits</button>
+            <button onclick="window.location.href='create.html'" class="btn btn-secondary">Ajoutez un Nouveau Produit</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
+            authDomain: "teka-somba-3ddca.firebaseapp.com",
+            databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "teka-somba-3ddca",
+            storageBucket: "teka-somba-3ddca.firebasestorage.app",
+            messagingSenderId: "690571843370",
+            appId: "1:690571843370:web:f802c4e0f823e54ca83053",
+            measurementId: "G-T3J6X0SLBT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check if the user is logged in
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Redirect to login page if the user is not logged in
+                window.location.href = "index.html";
+            }
+        });
+
+        // Logout function
+        function logout() {
+            signOut(auth).then(() => {
+                // Redirect to login page after logout
+                window.location.href = "index.html";
+            }).catch((error) => {
+                console.error("Error signing out: ", error);
+            });
+        }
+    </script>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

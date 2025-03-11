@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="favicon.jpg">
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("https://images.unsplash.com/photo-1573496548045-012ded7fea2c?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+            background-size: cover;
+        
+            background-repeat: none;
+        }
+        .wrapper {
+            font-size: 16px;
+            margin-top: 180px;
+            margin-right: 100px;
+            max-width: 500px;
+            background-color: rgba(0, 0, 0, 0.65);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        .wrapper a {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper mx-auto">
+        <h2>Se Connecter</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label><strong>Adress Email</strong></label>
+                <input type="email" id="email" placeholder="Entrez votre Adress Email" class="form-control" autocomplete="off" required>
+            </div>
+            <div class="form-group">
+                <label><strong>Mot de Passe</strong></label>
+                <input type="password" id="password" placeholder="Entrez votre mot de Passe" class="form-control" autocomplete="off" required>
+            </div>
+            <div class="button">
+                <button type="submit" class="btn btn-light">Se connecter</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
+            authDomain: "teka-somba-3ddca.firebaseapp.com",
+            databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "teka-somba-3ddca",
+            storageBucket: "teka-somba-3ddca.firebasestorage.app",
+            messagingSenderId: "690571843370",
+            appId: "1:690571843370:web:f802c4e0f823e54ca83053",
+            measurementId: "G-T3J6X0SLBT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Login form submission
+        document.getElementById("loginForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    
+                    window.location.href = "menu.html";
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>

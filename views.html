@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voir les Produits</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Liste des Produits</h1>
+        <div id="productList"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
+            authDomain: "teka-somba-3ddca.firebaseapp.com",
+            databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "teka-somba-3ddca",
+            storageBucket: "teka-somba-3ddca.firebasestorage.app",
+            messagingSenderId: "690571843370",
+            appId: "1:690571843370:web:f802c4e0f823e54ca83053",
+            measurementId: "G-T3J6X0SLBT"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Fetch and display products
+        const productList = document.getElementById("productList");
+        const productsRef = ref(database, "products");
+
+        onValue(productsRef, (snapshot) => {
+            productList.innerHTML = ""; // Clear previous content
+            snapshot.forEach((childSnapshot) => {
+                const product = childSnapshot.val();
+                const productCard = `
+                    <div class="product-card">
+                        <h3>${product.productName}</h3>
+                        <p><strong>Category:</strong> ${product.categorie}</p>
+                        <p><strong>Price:</strong> ${product.price} FCFA</p>
+                        <p><strong>Description:</strong> ${product.description}</p>
+                        <p><strong>Seller Contact:</strong> ${product.sellerContact}</p>
+                         <p><strong>Seller Name:</strong> ${product.sellerName}</p>
+                        <img src="${product.productPicture}" alt="${product.productName}" style="max-width: 100%; height: auto;">
+                    </div>
+                `;
+                productList.innerHTML += productCard;
+            });
+        });
+    </script>
+</body>
+</html>

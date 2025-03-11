@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="favicon.jpg">
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Somba Teka</title>
+  <style>
+    body {
+      color: white;
+      font-size: 12px;
+      background-color: #1a1a1a; /* Dark background for better contrast */
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-left: 20px;
+    }
+
+    .item {
+      width: calc(25% - 10px);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+      background-color: #333; /* Dark background for each product card */
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .img:hover {
+      transform: scale(1.1);
+    }
+
+    .search-container {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .button {
+      color: white;
+      margin-top: 10px;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      background: white;
+      color: black;
+    }
+
+    h1, h2, h3, h5 {
+      margin: 10px 0;
+    }
+
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    h5 {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="site-wrap">
+    <header class="site-navbar py-3" role="banner">
+      <div class="container-fluid">
+        <div class="row align-items-center">
+          <div class="col-6 col-xl-3">
+            <h1 class="mb-0">
+              <a href="index.html" class="text-white h2 mb-0">
+                <span><strong>SOMBA</strong></span>
+                <span><strong>TEKA</strong></span>
+              </a>
+            </h1>
+          </div>
+          <div class="col-6 col-xl-3 text-right">
+            <div class="d-none d-xl-inline-block">
+              <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
+                <li>
+                  <a href="#" class="pl-0 pr-3"><span class="icon-instagram"></span></a>
+                </li>
+                <li>
+                  <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+                </li>
+              </ul>
+            </div>
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">
+              <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="col-lg-15 mx-auto text-center" style="margin-top: 10px; margin-bottom: 50px;">
+      <h1 class="text-white intro">N'oubliez pas de <a href="#">cliquer</a> sur l'image pour en savoir plus.</h1>
+    </div>
+
+    <div class="row gallery" id="productList">
+      <!-- Products will be dynamically populated here -->
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
+        authDomain: "teka-somba-3ddca.firebaseapp.com",
+        databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "teka-somba-3ddca",
+        storageBucket: "teka-somba-3ddca.firebasestorage.app",
+        messagingSenderId: "690571843370",
+        appId: "1:690571843370:web:f802c4e0f823e54ca83053",
+        measurementId: "G-T3J6X0SLBT"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Reference to the "products" node in Firebase Realtime Database
+    const productsRef = ref(database, "products");
+
+    // Fetch and display products
+    onValue(productsRef, (snapshot) => {
+      const productList = document.getElementById("productList");
+      productList.innerHTML = ""; // Clear previous content
+
+      snapshot.forEach((childSnapshot) => {
+        const product = childSnapshot.val();
+        const productCard = `
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3 item">
+            <a href="description.html?productId=${childSnapshot.key}" title="${product.productName}">
+              <img src="${product.productPicture}" alt="${product.productName}" class="img">
+            </a>
+            <h2>${product.productName}</h2>
+            <h3>${product.categorie}</h3>
+            <h5>${product.price} FCFA</h5>
+          </div>
+        `;
+        productList.innerHTML += productCard;
+      });
+    });
+
+    // Fetch and populate categories
+    const categoriesRef = ref(database, "categories");
+    onValue(categoriesRef, (snapshot) => {
+      const categorySelect = document.getElementById("categorie");
+      categorySelect.innerHTML = '<option style="color:black" value="">Sélectionnez une catégorie</option>';
+
+      snapshot.forEach((childSnapshot) => {
+        const category = childSnapshot.val();
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.nom;
+        option.style.color = "black";
+        categorySelect.appendChild(option);
+      });
+    });
+
+  </script>
+
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
