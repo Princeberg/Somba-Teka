@@ -104,7 +104,7 @@
             <h1 style="color:white"> BIENVENUE PRINCE </h1>
             <button onclick="window.location.href='views.html'" class="btn btn-primary">Voir les Produits</button>
             <button onclick="window.location.href='create.html'" class="btn btn-secondary">Ajoutez un Nouveau Produit</button>
-            <button  onclick="logout()" class="btn btn-danger" logout-btn> Déconnexion </button>
+            <button onclick="logout()" class="btn btn-danger logout-btn"> Déconnexion </button>
         </div>
     </div>
 
@@ -139,7 +139,7 @@
 
         function logout() {
             signOut(auth).then(() => {
-                window.location.href = "index.html";
+                window.location.href = "logout.html"; // Redirect to logout page
             }).catch((error) => {
                 console.error("Error signing out: ", error);
             });
