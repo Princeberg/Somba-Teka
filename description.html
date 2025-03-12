@@ -173,7 +173,10 @@
             <p class="contact-info">${product.description}</p>
             <p class="product-price">Prix: ${product.price} FCFA</p>
             <p class="contact-info">Contact: ${product.sellerContact}</p>
-             <p class="contact-info">Whatsapp ${product.WhatsappURL}</p>
+            <p class="contact-info">
+   <p class="contact-info">
+        <a href="${product.WhatsappURL}" target="_blank">Contact via WhatsApp</a>
+    </p>
              <p class="contact-info">Nom du Vendeur: ${product.sellerName}</p>
           `;
         } else {
