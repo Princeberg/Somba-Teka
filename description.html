@@ -46,8 +46,8 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-     background-image: url("https://img.freepik.com/free-photo/side-view-smiley-man-using-smartphone-with-copy-space_23-2148793482.jpg?t=st=1741718894~exp=1741722494~hmac=bc5612ea2488f253727828cdc487fc5a78a5ce9d48cd6bd52d4cae976c604ac6&w=1800");
-      color: #333;
+      background-color: black; 
+      color: white;
     }
 
     .site-navbar {
@@ -64,10 +64,10 @@
       border: 1px solid #ccc;
       padding: 20px;
       border-radius: 10px;
-      max-width: 400px;
+      max-width: 300px;
       background-color: white;
-     margin-left: 900px;
-     margin-top: 60px;
+    
+      margin-top: 10px;
       text-align: center;
     }
 
@@ -172,6 +172,7 @@
             <p>${product.description}</p>
             <p class="product-price">Prix: ${product.price} FCFA</p>
             <p class="contact-info">Contact: ${product.sellerContact}</p>
+             <p class="contact-info">Whatsapp: ${product.wURL}</p>
              <p class="contact-info">Nom du Vendeur: ${product.sellerName}</p>
           `;
         } else {
