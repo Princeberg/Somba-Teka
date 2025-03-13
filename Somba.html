@@ -19,7 +19,6 @@
       color: white;  
       font-size: 12px;  
       background-color: #1a1a1a;  
-      /* Dark background for better contrast */  
       padding: 20px;  
     }  
 
@@ -37,26 +36,43 @@
       background-color: white;  
     }  
 
-    /* Styles for the image gallery */  
     .image-gallery {  
       display: flex;  
       overflow-x: auto;  
-      /* Enable horizontal scrolling */  
       scroll-snap-type: x mandatory;  
-      /* Ensure each image snaps into view */  
       -webkit-overflow-scrolling: touch;  
-      /* For smooth scrolling on iOS */  
     }  
 
     .image-gallery img {  
       width: 100%;  
       height: auto;  
       flex: none;  
-      /* Prevent images from shrinking or growing */  
       scroll-snap-align: start;  
-      /* Align each image to the start of the container */  
       margin-right: 10px;  
-      /* Add some spacing between images */  
+    }  
+
+    .search-container {  
+      display: flex;  
+      justify-content: center;  
+      margin-top: 20px;  
+    }  
+
+    .search-container select, .search-container input, .search-container button {  
+      padding: 10px;  
+      margin: 5px;  
+      border: 1px solid #ccc;  
+      border-radius: 5px;  
+    }  
+
+    .search-container button {  
+      background-color: #007bff;  
+      color: white;  
+      border: none;  
+      cursor: pointer;  
+    }  
+
+    .search-container button:hover {  
+      background-color: #0056b3;  
     }  
   </style>  
 </head>  
@@ -93,21 +109,22 @@
       </div>  
     </header>  
 
-    <div class="col-lg-15 mx-auto text-center">
-    <form action="search.html" method="GET">  
-  <select name="category" id="category">  
-    <option value="all">Voiture</option>  
-    <option value="title">Maison</option>  
-    <option value="author">Appartement</option>
-    <option value="author">Appareil Electronique</option>
-    <option value="author">Mode</option>
-    <option value="author">Construction</option>
-    <option value="author">Cuisine</option>
-  </select>  
-  <input type="text" id="search" name="query">  
-  <button type="submit">Recherchez</button>  
-</form> 
-    </div>
+    <div class="search-container">  
+      <form action="search.html" method="GET">  
+        <select name="category" id="category">  
+          <option value="Voiture">Voiture</option>  
+          <option value="Maison">Maison</option>  
+          <option value="Appartement">Appartement</option>  
+          <option value="Appareil Electronique">Appareil Electronique</option>  
+          <option value="Mode">Mode</option>  
+          <option value="Construction">Construction</option>  
+          <option value="Cuisine">Cuisine</option>  
+          <option value="Autre">Autre</option>  
+        </select>  
+        <input type="text" id="search" name="query" placeholder="Recherchez un produit...">  
+        <button type="submit">Recherchez</button>  
+      </form>  
+    </div>  
 
     <div class="col-lg-15 mx-auto text-center" style="margin-top: 10px; margin-bottom: 50px; font-size: 18px">  
       <p>N'oubliez pas de <a href="#">cliquer</a> sur l'image pour plus d'information.</p>  
@@ -149,15 +166,13 @@
 
       snapshot.forEach((childSnapshot) => {  
         const product = childSnapshot.val();  
-        // Create an array of product pictures  
         const productPictures = [  
           product.productPicture1,  
           product.productPicture2,  
           product.productPicture3,  
           product.productPicture4  
-        ].filter(Boolean); // Filter out any undefined or null values  
+        ].filter(Boolean);  
 
-        // Generate the image gallery HTML  
         const imageGalleryHTML = `  
           <div class="image-gallery">  
             ${productPictures.map(picture => `  
