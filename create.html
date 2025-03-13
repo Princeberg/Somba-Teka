@@ -59,8 +59,20 @@
                 <input type="url" id="wURL" class="form-control" required>
             </div>
             <div class="form-group">
-                <label>Product Picture URL</label>
-                <input type="url" id="productPicture" class="form-control" required>
+                <label>Product Picture 1 URL</label>
+                <input type="url" id="productPicture1" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Product Picture 2 URL</label>
+                <input type="url" id="productPicture2" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Product Picture 3 URL</label>
+                <input type="url" id="productPicture3" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Product Picture 4 URL</label>
+                <input type="url" id="productPicture4" class="form-control" required>
             </div>
             <button type="submit" class="btn btn-primary">Créer</button>
         </form>
@@ -98,7 +110,10 @@
                 sellerContact: document.getElementById("sellerContact").value,
                 WhatsappURL: document.getElementById("wURL").value,
                 sellerName: document.getElementById("sellerName").value,
-                productPicture: document.getElementById("productPicture").value
+                productPicture1: document.getElementById("productPicture1").value
+                productPicture2: document.getElementById("productPicture2").value
+                productPicture3: document.getElementById("productPicture3").value
+                productPicture4: document.getElementById("productPicture4").value
             };
 
             // Save product to Firebase
