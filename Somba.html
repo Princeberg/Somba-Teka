@@ -16,20 +16,54 @@
     body {
       color: white;
       font-size: 12px;
-      background-color: #1a1a1a; /* Dark background for better contrast */
+      background-color: #1a1a1a;
       padding: 20px;
     }
-   .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-           color: black; 
-            background-color:  white;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      color: black;
+      background-color: white;
+    }
+    .carousel {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .carousel img {
+      width: 100%;
+      height: auto;
+    }
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .carousel-control.prev {
+      left: 10px;
+    }
+    .carousel-control.next {
+      right: 10px;
+    }
   </style>
 </head>
 <body>
@@ -78,7 +112,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
         authDomain: "teka-somba-3ddca.firebaseapp.com",
@@ -90,24 +123,32 @@
         measurementId: "G-T3J6X0SLBT"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // Reference to the "products" node in Firebase Realtime Database
     const productsRef = ref(database, "products");
 
-    // Fetch and display products
     onValue(productsRef, (snapshot) => {
       const productList = document.getElementById("productList");
-      productList.innerHTML = ""; // Clear previous content
+      productList.innerHTML = "";
 
       snapshot.forEach((childSnapshot) => {
         const product = childSnapshot.val();
         const productCard = `
           <div class="product-card">
-          <a href="description.html?productId=${childSnapshot.key}" title="${product.productName}">
-          <img src="${product.productPicture}" alt="${product.productName}" style="max-width: 100%; height: auto;"> </a> 
+            <div class="carousel">
+              <div class="carousel-inner">
+                ${[product.productPicture1, product.productPicture2, product.productPicture3, product.productPicture4]
+                  .filter(Boolean)
+                  .map((img, index) => `
+                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                      <img src="${img}" alt="${product.productName}">
+                    </div>
+                  `).join('')}
+              </div>
+              <button class="carousel-control prev" onclick="prevSlide(this)">&#10094;</button>
+              <button class="carousel-control next" onclick="nextSlide(this)">&#10095;</button>
+            </div>
             <h2>${product.productName}</h2>
             <h3>${product.categorie}</h3>
             <h5>${product.price} FCFA</h5>
@@ -117,7 +158,6 @@
       });
     });
 
-    // Fetch and populate categories
     const categoriesRef = ref(database, "categories");
     onValue(categoriesRef, (snapshot) => {
       const categorySelect = document.getElementById("categorie");
@@ -133,17 +173,19 @@
       });
     });
 
-  </script>
+    // Carousel navigation functions
+    window.prevSlide = function(button) {
+      const carousel = button.parentElement;
+      const inner = carousel.querySelector('.carousel-inner');
+      const items = carousel.querySelectorAll('.carousel-item');
+      const activeItem = carousel.querySelector('.carousel-item.active');
+      let prevIndex = Array.from(items).indexOf(activeItem) - 1;
+      if (prevIndex < 0) prevIndex = items.length - 1;
+      inner.style.transform = `translateX(-${prevIndex * 100}%)`;
+      items.forEach(item => item.classList.remove('active'));
+      items[prevIndex].classList.add('active');
+    };
 
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
-     <script>
-     document.addEventListener('contextmenu', function(e) {
-       e.preventDefault();
-     });
-   </script>
-   
-
-</body>
-</html>
+    window.nextSlide = function(button) {
+      const carousel = button.parentElement;
+      const inner =
