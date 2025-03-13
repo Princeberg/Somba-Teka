@@ -1,191 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" href="favicon.jpg">
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <title>Somba Teka</title>
-  <style>
-    body {
-      color: white;
-      font-size: 12px;
-      background-color: #1a1a1a;
-      padding: 20px;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .product-card {
-      border: 1px solid #ddd;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      color: black;
-      background-color: white;
-    }
-    .carousel {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-    }
-    .carousel-inner {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-    .carousel-item {
-      min-width: 100%;
-      box-sizing: border-box;
-    }
-    .carousel img {
-      width: 100%;
-      height: auto;
-    }
-    .carousel-control {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .carousel-control.prev {
-      left: 10px;
-    }
-    .carousel-control.next {
-      right: 10px;
-    }
-  </style>
-</head>
-<body>
-  <div class="site-wrap">
-    <header class="site-navbar py-3" role="banner">
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-6 col-xl-3">
-            <h1 class="mb-0">
-              <a href="index.html" class="text-white h2 mb-0">
-                <span><strong>SOMBA</strong></span>
-                <span><strong>TEKA</strong></span>
-              </a>
-            </h1>
-          </div>
-          <div class="col-6 col-xl-3 text-right">
-            <div class="d-none d-xl-inline-block">
-              <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
-                <li>
-                  <a href="#" class="pl-0 pr-3"><span class="icon-instagram"></span></a>
-                </li>
-                <li>
-                  <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
-                </li>
-              </ul>
-            </div>
-            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">
-              <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+<!DOCTYPE html>  
+<html lang="en">  
 
-    <div class="col-lg-15 mx-auto text-center" style="margin-top: 10px; margin-bottom: 50px; font-size: 18px">
-      <p>N'oubliez pas de <a href="#">cliquer</a> sur l'image pour plus d'information.</p>
-    </div>
+<head>  
+  <meta charset="utf-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">  
+  <link rel="shortcut icon" href="favicon.jpg">  
+  <meta name="description" content="" />  
+  <meta name="keywords" content="" />  
+  <link rel="preconnect" href="https://fonts.googleapis.com">  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+  <link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter&display=swap"  
+    rel="stylesheet">  
+  <link rel="stylesheet" href="css/bootstrap.min.css">  
+  <link rel="stylesheet" href="css/style.css">  
+  <title>Somba Teka</title>  
+  <style>  
+    body {  
+      color: white;  
+      font-size: 12px;  
+      background-color: #1a1a1a;  
+      /* Dark background for better contrast */  
+      padding: 20px;  
+    }  
 
-    <div class="container" id="productList">
-      <!-- Products will be dynamically populated here -->
-    </div>
-  </div>
+    .container {  
+      max-width: 800px;  
+      margin: 0 auto;  
+    }  
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+    .product-card {  
+      border: 1px solid #ddd;  
+      padding: 15px;  
+      margin-bottom: 15px;  
+      border-radius: 5px;  
+      color: black;  
+      background-color: white;  
+    }  
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",
-        authDomain: "teka-somba-3ddca.firebaseapp.com",
-        databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "teka-somba-3ddca",
-        storageBucket: "teka-somba-3ddca.firebasestorage.app",
-        messagingSenderId: "690571843370",
-        appId: "1:690571843370:web:f802c4e0f823e54ca83053",
-        measurementId: "G-T3J6X0SLBT"
-    };
+    /* Styles for the image gallery */  
+    .image-gallery {  
+      display: flex;  
+      overflow-x: auto;  
+      /* Enable horizontal scrolling */  
+      scroll-snap-type: x mandatory;  
+      /* Ensure each image snaps into view */  
+      -webkit-overflow-scrolling: touch;  
+      /* For smooth scrolling on iOS */  
+    }  
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    .image-gallery img {  
+      width: 100%;  
+      height: auto;  
+      flex: none;  
+      /* Prevent images from shrinking or growing */  
+      scroll-snap-align: start;  
+      /* Align each image to the start of the container */  
+      margin-right: 10px;  
+      /* Add some spacing between images */  
+    }  
+  </style>  
+</head>  
 
-    const productsRef = ref(database, "products");
+<body>  
+  <div class="site-wrap">  
+    <header class="site-navbar py-3" role="banner">  
+      <div class="container-fluid">  
+        <div class="row align-items-center">  
+          <div class="col-6 col-xl-3">  
+            <h1 class="mb-0">  
+              <a href="index.html" class="text-white h2 mb-0">  
+                <span><strong>SOMBA</strong></span>  
+                <span><strong>TEKA</strong></span>  
+              </a>  
+            </h1>  
+          </div>  
+          <div class="col-6 col-xl-3 text-right">  
+            <div class="d-none d-xl-inline-block">  
+              <ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">  
+                <li>  
+                  <a href="#" class="pl-0 pr-3"><span class="icon-instagram"></span></a>  
+                </li>  
+                <li>  
+                  <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>  
+                </li>  
+              </ul>  
+            </div>  
+            <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">  
+              <a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a>  
+            </div>  
+          </div>  
+        </div>  
+      </div>  
+    </header>  
 
-    onValue(productsRef, (snapshot) => {
-      const productList = document.getElementById("productList");
-      productList.innerHTML = "";
+    <div class="col-lg-15 mx-auto text-center" style="margin-top: 10px; margin-bottom: 50px; font-size: 18px">  
+      <p>N'oubliez pas de <a href="#">cliquer</a> sur l'image pour plus d'information.</p>  
+    </div>  
 
-      snapshot.forEach((childSnapshot) => {
-        const product = childSnapshot.val();
-        const productCard = `
-          <div class="product-card">
-            <div class="carousel">
-              <div class="carousel-inner">
-                ${[product.productPicture1, product.productPicture2, product.productPicture3, product.productPicture4]
-                  .filter(Boolean)
-                  .map((img, index) => `
-                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                      <img src="${img}" alt="${product.productName}">
-                    </div>
-                  `).join('')}
-              </div>
-              <button class="carousel-control prev" onclick="prevSlide(this)">&#10094;</button>
-              <button class="carousel-control next" onclick="nextSlide(this)">&#10095;</button>
-            </div>
-            <h2>${product.productName}</h2>
-            <h3>${product.categorie}</h3>
-            <h5>${product.price} FCFA</h5>
-          </div>
-        `;
-        productList.innerHTML += productCard;
-      });
-    });
+    <div class="container" id="productList">  
+      <!-- Products will be dynamically populated here -->  
+    </div>  
+  </div>  
 
-    const categoriesRef = ref(database, "categories");
-    onValue(categoriesRef, (snapshot) => {
-      const categorySelect = document.getElementById("categorie");
-      categorySelect.innerHTML = '<option style="color:black" value="">Sélectionnez une catégorie</option>';
+  <!-- Firebase SDK -->  
+  <script type="module">  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";  
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";  
 
-      snapshot.forEach((childSnapshot) => {
-        const category = childSnapshot.val();
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.nom;
-        option.style.color = "black";
-        categorySelect.appendChild(option);
-      });
-    });
+    // Firebase configuration  
+    const firebaseConfig = {  
+      apiKey: "AIzaSyBKsq6sfR-CqPMJFwXrD3DJlQ3Z4E1G1-k",  
+      authDomain: "teka-somba-3ddca.firebaseapp.com",  
+      databaseURL: "https://teka-somba-3ddca-default-rtdb.europe-west1.firebasedatabase.app",  
+      projectId: "teka-somba-3ddca",  
+      storageBucket: "teka-somba-3ddca.firebasestorage.app",  
+      messagingSenderId: "690571843370",  
+      appId: "1:690571843370:web:f802c4e0f823e54ca83053",  
+      measurementId: "G-T3J6X0SLBT"  
+    };  
 
-    // Carousel navigation functions
-    window.prevSlide = function(button) {
-      const carousel = button.parentElement;
-      const inner = carousel.querySelector('.carousel-inner');
-      const items = carousel.querySelectorAll('.carousel-item');
-      const activeItem = carousel.querySelector('.carousel-item.active');
-      let prevIndex = Array.from(items).indexOf(activeItem) - 1;
-      if (prevIndex < 0) prevIndex = items.length - 1;
-      inner.style.transform = `translateX(-${prevIndex * 100}%)`;
-      items.forEach(item => item.classList.remove('active'));
-      items[prevIndex].classList.add('active');
-    };
+    // Initialize Firebase  
+    const app = initializeApp(firebaseConfig);  
+    const database = getDatabase(app);  
 
-    window.nextSlide = function(button) {
-      const carousel = button.parentElement;
-      const inner =
+    // Reference to the "products" node in Firebase Realtime Database  
+    const productsRef = ref(database, "products");  
+
+    // Fetch and display products  
+    onValue(productsRef, (snapshot) => {  
+      const productList = document.getElementById("productList");  
+      productList.innerHTML = ""; // Clear previous content  
+
+      snapshot.forEach((childSnapshot) => {  
+        const product = childSnapshot.val();  
+        // Create an array of product pictures  
+        const productPictures = [  
+          product.productPicture1,  
+          product.productPicture2,  
+          product.productPicture3,  
+          product.productPicture4  
+        ].filter(Boolean); // Filter out any undefined or null values  
+
+        // Generate the image gallery HTML  
+        const imageGalleryHTML = `  
+          <div class="image-gallery">  
+            ${productPictures.map(picture => `  
+              <a href="description.html?productId=${childSnapshot.key}" title="${product.productName}">  
+                <img src="${picture}" alt="${product.productName}" style="max-width: 100%; height: auto;">  
+              </a>  
+            `).join('')}  
+          </div>  
+        `;  
+
+        const productCard = `  
+          <div class="product-card">  
+            ${imageGalleryHTML}  
+            <h2>${product.productName}</h2>  
+            <h3>${product.categorie}</h3>  
+            <h5>${product.price} FCFA</h5>  
+          </div>  
+        `;  
+        productList.innerHTML += productCard;  
+      });  
+    });  
+  </script>  
+
+  <script src="js/jquery-3.3.1.min.js"></script>  
+  <script src="js/bootstrap.min.js"></script>  
+  <script src="js/main.js"></script>  
+  <script>  
+    document.addEventListener('contextmenu', function (e) {  
+      e.preventDefault();  
+    });  
+  </script>  
+
+</body>  
+
+</html>  
