@@ -118,42 +118,55 @@
     const productsRef = ref(database, "products");  
 
     
-    onValue(productsRef, (snapshot) => {  
-      const productList = document.getElementById("productList");  
-      productList.innerHTML = "";
+ onValue(productsRef, (snapshot) => {
+  const productList = document.getElementById("productList");
+  productList.innerHTML = ""; // Clear the product list
 
-      snapshot.forEach((childSnapshot) => {  
-        const product = childSnapshot.val();  
-        if (product.categorie === selectedCategory) {  
-          const productPictures = [  
-            product.productPicture1,  
-            product.productPicture2,  
-            product.productPicture3,  
-            product.productPicture4  
-          ].filter(Boolean);  
+  let hasProducts = false; // Flag to check if any products are found
 
-          const imageGalleryHTML = `  
-            <div class="image-gallery">  
-              ${productPictures.map(picture => `  
-                <a href="description.html?productId=${childSnapshot.key}" title="${product.productName}">  
-                  <img src="${picture}" alt="${product.productName}" style="max-width: 100%; height: auto;">  
-                </a>  
-              `).join('')}  
-            </div>  
-          `;  
+  snapshot.forEach((childSnapshot) => {
+    const product = childSnapshot.val();
+    if (product.categorie === selectedCategory) {
+      hasProducts = true; // Set flag to true if a product is found
 
-          const productCard = `  
-            <div class="product-card">  
-              ${imageGalleryHTML}  
-              <h5 style="color:red">${product.productName}</h5>  
-              <h8>${product.categorie}</h8>  
-              <h6 style="color:red">${product.price} FCFA</h6>  
-            </div>  
-          `;  
-          productList.innerHTML += productCard;  
-        }  
-      });  
-    });  
+      const productPictures = [
+        product.productPicture1,
+        product.productPicture2,
+        product.productPicture3,
+        product.productPicture4
+      ].filter(Boolean);
+
+      const imageGalleryHTML = `
+        <div class="image-gallery">
+          ${productPictures.map(picture => `
+            <a href="description.html?productId=${childSnapshot.key}" title="${product.productName}">
+              <img src="${picture}" alt="${product.productName}" style="max-width: 100%; height: auto;">
+            </a>
+          `).join('')}
+        </div>
+      `;
+
+      const productCard = `
+        <div class="product-card">
+          ${imageGalleryHTML}
+          <h5 style="color:red">${product.productName}</h5>
+          <h8>${product.categorie}</h8>
+          <h6 style="color:red">${product.price} FCFA</h6>
+        </div>
+      `;
+      productList.innerHTML += productCard;
+    }
+  });
+
+  // If no products are found, display the message
+  if (!hasProducts) {
+    productList.innerHTML = `
+      <div class="text-center text-white">
+        <p>Aucun produit disponible actuellement dans la catégorie sélectionnée.</p>
+      </div>
+    `;
+  }
+});
   </script>  
 
   <script src="js/jquery-3.3.1.min.js"></script>  
